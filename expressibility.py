@@ -9,10 +9,16 @@ from scipy.spatial.distance import jensenshannon
 
 class Expressibility:
     
-    def __init__(self,circ=None,samples=1000):
+    def __init__(self,circ=None,method='kl',samples=10):
+        """
+        circ: qiskit QuantumCircuit
+        method: string, "kl" or "js"
+        samples: number of evaluations of circuits
+        """
         self.circ = circ
         self.samples = samples
         self.num_qubits = circ.num_qubits
+        self.method = method
         self.params = self.get_params()
     
     
@@ -86,7 +92,7 @@ class Expressibility:
         return result_data
     
     
-    def get_result(self, measure: str = "kld", shots: int = 1024) -> float:
+    def get_result(self, shots: int = 1024) -> float:
         
         r"""Returns expressibility for the circuit
         .. math::
@@ -97,6 +103,7 @@ class Expressibility:
         :returns pqc_expressibility: float, expressibility value
         :raises ValueError: if invalid measure is specified
         """
+        measure = self.method
         haar = self.prob_haar()
         haar_prob: np.ndarray = haar / float(haar.sum())
 
@@ -111,12 +118,12 @@ class Expressibility:
         )
         pqc_prob: np.ndarray = pqc_hist / float(pqc_hist.sum())
 
-        if measure == "kld":
+        if measure == "kl":
             pqc_expressibility = self.kl_divergence(pqc_prob, haar_prob)
-        elif measure == "jsd":
+        elif measure == "js":
             pqc_expressibility = jensenshannon(pqc_prob, haar_prob, 2.0)
         else:
-            raise ValueError("Invalid measure provided, choose from 'kld' or 'jsd'")
+            raise ValueError("Invalid measure provided, choose from 'kl' or 'js'")
         self.plot_data = [haar_prob, pqc_prob, bin_edges]
         self.expr = pqc_expressibility
 
@@ -124,6 +131,6 @@ class Expressibility:
 
 if __name__=="__main__":
     qc = TwoLocal(3, 'ry', 'cx', 'linear', reps=2, insert_barriers=True)
-    measure = Expressibility(circ=qc)
+    measure = Expressibility(circ=qc,samples=10)
     e = measure.get_result()
     print("Expressibility is: ",e)

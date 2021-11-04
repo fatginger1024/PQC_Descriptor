@@ -9,10 +9,16 @@ from qiskit.circuit.library import TwoLocal
 
 class Entanglement_Capability:
     
-    def __init__(self,circ=None,samples=1000):
+    def __init__(self,circ=None,method='mw',samples=10):
+        """
+        circ: qiskit QuantumCircuit
+        method: string, "kl" or "js"
+        samples: number of evaluations of circuits
+        """
         self.circ = circ
         self.num_qubits = circ.num_qubits
         self.samples = samples
+        self.method = method
         self.params = self.get_params()
         
         
@@ -103,9 +109,10 @@ class Entanglement_Capability:
         return result_data
     
     
-    def get_result(self,method='mw'):
+    def get_result(self):
         num_qubits = self.num_qubits
         thetas, phis = self.params
+        method = self.method
         if method=='mw':
             
             theta_circuits = [
@@ -135,11 +142,14 @@ class Entanglement_Capability:
                         theta_circuits + phi_circuits, num_qubits
                     ) / (2 * self.samples)
             
+        else:
+            raise ValueError("Invalid measure provided, choose from 'mw' or 'scott'")
+            
         return circ_entanglement_capability
     
     
 if __name__=="__main__":
     qc = TwoLocal(3, 'ry', 'cx', 'linear', reps=2, insert_barriers=True)
-    measure = Entanglement_Capability(qc)
+    measure = Entanglement_Capability(qc,samples=10)
     a = measure.get_result()
     print("entanglement capability is: ",a)
