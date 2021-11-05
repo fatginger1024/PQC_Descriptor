@@ -27,11 +27,12 @@ class Simulation(Multiprocess):
         :returns theta (np.array): first list of parameters for the parameterized quantum circuit
         :returns phi (np.array): second list of parameters for the parameterized quantum circuit
         """
-        
+        #np.random.seed(1234)
         theta = [
             {p: 2 * np.random.random() * np.pi for p in self._circ.parameters}
             for _ in range(self._samples)
         ]
+        #np.random.seed(1234)
         phi = [
             {p: 2 * np.random.random() * np.pi for p in self._circ.parameters}
             for _ in range(self._samples)
@@ -64,7 +65,7 @@ if __name__=="__main__":
     [qc.rz(x[int(2*i+1)], i) for i in range(Num)]
     qc.cx(0, range(1, Num))
     circ = qc
-    run = Simulation(circ,samples=10,num_proc=1)
+    run = Simulation(circ,samples=10,num_proc=2)
     #print(type(run.thetas),type(run.thetas[0]))
     #print(run.get_circuits())
         

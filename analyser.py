@@ -109,6 +109,7 @@ if __name__=="__main__":
     circ = qc
     out = Analyser(circ=qc,samples=100,num_proc=2)
     print(out.__dict__.keys())
+    print("params: ",out.thetas[0],out.phis[0])
     print(out.get_expressibility())
     print(out.get_entanglement())
     

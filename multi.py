@@ -1,4 +1,5 @@
 import ctypes
+import pickle
 import numpy as np
 from functools import partial
 from interface import Interface
@@ -25,9 +26,22 @@ class Multiprocess(Interface):
         p1: theta
         p2: phi
         """
+        out1 = func(p1)
+        out2 = func(p2)
+        out1 = out1.reshape(2,len(p1)).T.flatten()
+        out2 = out2.reshape(2,len(p2)).T.flatten()
+        arr1[i] = out1
+        arr2[i] = out2
         #print("shape shape shape: ",arr1[i].shape,"p1 is: ",type(p1),func(p1).shape,func(p1))
-        arr1[i] = func(p1)
-        arr2[i] = func(p2)
+        #arr1[i] = func(p1)
+        #arr2[i] = func(p2)
+        """
+        print("p1",p1,"sim p1",arr1[i])
+        f1 = open("p1.pkl","wb")
+        pickle.dump(p1,f1)
+        f1.close()
+        np.savetxt('p1.txt', arr1[i].view(float))
+        """
 
     def job(self,func,iterable):
         arr1_base = Array(ctypes.c_double, self._samples*self._num_params*4)
