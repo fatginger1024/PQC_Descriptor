@@ -38,8 +38,6 @@ class Multiprocessing(Expressibility,Entanglement_Capability):
                 "Invalid descriptor, choose from 'ex', 'ec' or 'both'."
             )
         
-        self.num_proc = num_core
-        self.thetas, self.phis = self.get_params()
         
             
     def simulate(self,theta):

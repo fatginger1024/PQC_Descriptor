@@ -1,11 +1,15 @@
 import qiskit
 import typing
+import numpy as np
 from interface import Interface
+from multi import Multiprocess
+from qiskit import QuantumCircuit
+from qiskit.circuit import ParameterVector
 
-class run_simulator(Interface):
+class Simulation(Multiprocess):
     
-    def __init__(self,circ=None,samples:int=1000):
-        Interface.__init__(self,circ,samples)
+    def __init__(self,circ=None,samples:int=10,num_proc:int=1):
+        Multiprocess.__init__(self,circ,samples,num_proc)
         self.thetas,self.phis = self.get_params()
         
     def simulate(self,theta):
@@ -43,22 +47,25 @@ class run_simulator(Interface):
         Function that needs multiprocessing.
         
         """
-        
-        #thetas, phis = self.get_params()
-        #theta_circuits = [
-        #        self.simulate(theta)
-        #        for theta in thetas
-        #]
-        #    
-        #phi_circuits = [
-        #    self.simulate(phi)
-        #    for phi in phis
-        #]
-        arr1,arr2 = self.job()
-        theta_circuits = arr1
-        phi_circuits = arr2
-        
-        return theta_circuits, phi_circuits
+       
+        thetas = self.thetas
+        phis = self.phis
+        arr1,arr2 = self.job(self.simulate,[(i,thetas[i],phis[i]) for i in range(self._samples)])
+        #print("arr1,arr2",arr1,arr2)
+        return arr1, arr2
     
+    
+if __name__=="__main__":
+    Num = 4
+    qc = QuantumCircuit(Num)
+    x = ParameterVector(r'$\theta$', length=8)
+    [qc.h(i) for i in range(Num)]   
+    [qc.ry(x[int(2*i)], i) for i in range(Num)]
+    [qc.rz(x[int(2*i+1)], i) for i in range(Num)]
+    qc.cx(0, range(1, Num))
+    circ = qc
+    run = Simulation(circ,samples=10,num_proc=1)
+    #print(type(run.thetas),type(run.thetas[0]))
+    #print(run.get_circuits())
         
         
