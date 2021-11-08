@@ -5,9 +5,9 @@ import numpy as np
 from qiskit import QuantumCircuit
 from qiskit.circuit import ParameterVector
 from qiskit.quantum_info import state_fidelity
-from run import Simulation
-from descriptors.expressibility import Expressibility
-from descriptors.entanglement import Entanglement_Capability
+from pqc import Simulation
+from .descriptors.expressibility import Expressibility
+from .descriptors.entanglement import Entanglement_Capability
 
 
 class Analyser(Simulation,Expressibility,Entanglement_Capability):

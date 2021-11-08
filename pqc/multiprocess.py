@@ -3,7 +3,7 @@ import ctypes
 import pickle
 import numpy as np
 from functools import partial
-from interface import Interface
+from pqc import Interface
 from multiprocessing import Array, Pool
 
 

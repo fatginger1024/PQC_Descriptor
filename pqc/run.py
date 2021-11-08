@@ -1,10 +1,10 @@
 import qiskit
 import typing
 import numpy as np
-from interface import Interface
-from multiprocess import Multiprocess
 from qiskit import QuantumCircuit
 from qiskit.circuit import ParameterVector
+from pqc import Interface
+from pqc import Multiprocess
 
 class Simulation(Multiprocess):
     

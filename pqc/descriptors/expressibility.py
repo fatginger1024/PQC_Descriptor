@@ -2,7 +2,7 @@ import qiskit
 import itertools
 import typing
 import numpy as np
-from interface import Interface
+from pqc import Interface
 from qiskit.quantum_info import state_fidelity
 from scipy.spatial import distance
 

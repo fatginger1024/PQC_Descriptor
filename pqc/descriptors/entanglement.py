@@ -2,7 +2,7 @@
 import qiskit
 import itertools
 import numpy as np
-from interface import Interface
+from pqc import Interface
 from qiskit.quantum_info import partial_trace
 
 class Entanglement_Capability(Interface):
