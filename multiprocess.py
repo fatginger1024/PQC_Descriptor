@@ -32,9 +32,6 @@ class Multiprocess(Interface):
         arr1[i] = out1
         arr2[i] = out2
         
-        print("i=: ",i)
-        print("arr1",arr1[i])
-        #print("arr2",arr2[i])
         
        
     def job(self,func,iterable):
@@ -48,7 +45,7 @@ class Multiprocess(Interface):
         arr1 = arr1.view(np.complex128).reshape(self._samples, self._num_params*2)
         arr2 = np.ctypeslib.as_array(arr2_base.get_obj())
         arr2 = arr2.view(np.complex128).reshape(self._samples, self._num_params*2)
-        print("check: ",arr1)
+        
         return arr1, arr2
     
     

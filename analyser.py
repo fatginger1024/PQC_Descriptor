@@ -23,7 +23,6 @@ class Analyser(Simulation,Expressibility,Entanglement_Capability):
         elif descriptor == "ec":
             Entanglement_Capability.__init__(self,circ,samples,method_ec)
         elif descriptor == "both":
-            #super(Analyser,self).__init__(circ,samples,method_ex,method_ec,num_proc)
             Expressibility.__init__(self,circ,samples,method_ex)
             Entanglement_Capability.__init__(self,circ,samples,method_ec)
             
@@ -52,7 +51,7 @@ class Analyser(Simulation,Expressibility,Entanglement_Capability):
         num_qubits = self._num_qubits
         theta_circuits = self.theta_circuits
         phi_circuits = self.phi_circuits
-        #print("circ check: ",phi_circuits)
+        
         method = self._method_ec
         if method=='mw':
             
@@ -109,10 +108,8 @@ if __name__=="__main__":
     [qc.rz(x[int(2*i+1)], i) for i in range(Num)]
     qc.cx(0, range(1, Num))
     circ = qc
-    out = Analyser(circ=qc,samples=10,num_proc=1)
+    out = Analyser(circ=qc,samples=1000,num_proc=4)
     print(out.__dict__.keys())
-    print("params: ",out.thetas[0].values(),out.phis[0].values())
-    print("circuits: ",out.theta_circuits[0],out.phi_circuits[0])
-    print(out.get_expressibility())
-    print(out.get_entanglement())
+    print("exp: ",out.get_expressibility())
+    print("ent: ",out.get_entanglement())
     
