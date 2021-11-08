@@ -2,7 +2,7 @@ import qiskit
 import typing
 import numpy as np
 from interface import Interface
-from multi import Multiprocess
+from multiprocess import Multiprocess
 from qiskit import QuantumCircuit
 from qiskit.circuit import ParameterVector
 
@@ -27,12 +27,12 @@ class Simulation(Multiprocess):
         :returns theta (np.array): first list of parameters for the parameterized quantum circuit
         :returns phi (np.array): second list of parameters for the parameterized quantum circuit
         """
-        #np.random.seed(1234)
+        np.random.seed(1234)
         theta = [
             {p: 2 * np.random.random() * np.pi for p in self._circ.parameters}
             for _ in range(self._samples)
         ]
-        #np.random.seed(1234)
+        np.random.seed(1234)
         phi = [
             {p: 2 * np.random.random() * np.pi for p in self._circ.parameters}
             for _ in range(self._samples)
@@ -52,7 +52,7 @@ class Simulation(Multiprocess):
         thetas = self.thetas
         phis = self.phis
         arr1,arr2 = self.job(self.simulate,[(i,thetas[i],phis[i]) for i in range(self._samples)])
-        #print("arr1,arr2",arr1,arr2)
+        
         return arr1, arr2
     
     
@@ -66,7 +66,9 @@ if __name__=="__main__":
     qc.cx(0, range(1, Num))
     circ = qc
     run = Simulation(circ,samples=10,num_proc=2)
-    #print(type(run.thetas),type(run.thetas[0]))
+    print(type(run.thetas),type(run.thetas[0]))
+    print(run.thetas[0].values(),run.phis[0].values())
+    
     #print(run.get_circuits())
         
         
