@@ -38,13 +38,10 @@ class Analyser(Simulation,Expressibility,Entanglement_Capability):
         """
         theta_circuits, phi_circuits = self.get_circuits()
         fidelity = np.array(
-            [
-                state_fidelity(rho_a, rho_b)
-                for rho_a, rho_b in itertools.product(theta_circuits, phi_circuits)
-            ]
+            [state_fidelity(a,b) for a,b in zip(theta_circuits,phi_circuits)]
         )
         
-        return np.array(fidelity)
+        return np.asarray(fidelity)
     
     
     def get_entanglement(self):
@@ -100,6 +97,22 @@ class Analyser(Simulation,Expressibility,Entanglement_Capability):
     
     
 if __name__=="__main__":
+    
+    Num = 4
+    qc = QuantumCircuit(Num)
+    x = ParameterVector(r'$\theta$', length=8)
+    [qc.h(i) for i in range(Num)]   
+    [qc.ry(x[int(2*i)], i) for i in range(Num)]
+    [qc.rz(x[int(2*i+1)], i) for i in range(Num)]
+    qc.cx(0, range(1, Num))
+    circ = qc  
+    out = Analyser(circ=qc,samples=1000,num_proc=4)
+    print(out.__dict__.keys())
+    print("exp: ",out.get_expressibility())
+    print("ent: ",out.get_entanglement())
+    
+    
+def get_qc():
     Num = 4
     qc = QuantumCircuit(Num)
     x = ParameterVector(r'$\theta$', length=8)
@@ -108,8 +121,5 @@ if __name__=="__main__":
     [qc.rz(x[int(2*i+1)], i) for i in range(Num)]
     qc.cx(0, range(1, Num))
     circ = qc
-    out = Analyser(circ=qc,samples=1000,num_proc=4)
-    print(out.__dict__.keys())
-    print("exp: ",out.get_expressibility())
-    print("ent: ",out.get_entanglement())
+    return circ
     
