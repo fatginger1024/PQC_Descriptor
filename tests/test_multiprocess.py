@@ -4,7 +4,7 @@ from qiskit import QuantumCircuit
 from qiskit.circuit import ParameterVector
 from functools import partial
 from multiprocessing import Array, Pool
-#from pqcdescriptor.multiprocess import Multiprocess
+#from pqc import Multiprocess
 
 
 class Multiprocess:
