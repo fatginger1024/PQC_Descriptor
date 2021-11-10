@@ -11,8 +11,8 @@ class Entanglement_Capability(Interface):
     def __init__(self,circ=None,samples:int=1000,method_ec:str='mw'):
         Interface.__init__(self,circ,samples)
         self._method_ec = method_ec
-        print("Entering entanglement init ...")
-        print("method ec: ",method_ec)
+        #print("Entering entanglement init ...")
+        #print("method ec: ",method_ec)
 
     @staticmethod
     def scott_helper(state, perms):

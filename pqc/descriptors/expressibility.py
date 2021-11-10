@@ -14,8 +14,8 @@ class Expressibility(Interface):
     def __init__(self,circ=None,samples:int=1000,method_ex:str='kl'):
         Interface.__init__(self,circ,samples)
         self._method_ex = method_ex
-        print("Entering expressibility init ...")
-        print("method ex: ",method_ex)
+        #print("Entering expressibility init ...")
+        #print("method ex: ",method_ex)
 
 
     @staticmethod
