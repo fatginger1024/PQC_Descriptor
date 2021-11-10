@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+
+
 from pqc.interface import Interface
 from pqc.multiprocess import Multiprocess
 from pqc.run import Simulation

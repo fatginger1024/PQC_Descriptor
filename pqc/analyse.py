@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+
+
 from pqc import Analyser
 from qiskit import QuantumCircuit
 from qiskit.circuit import ParameterVector

@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+
+
 import qiskit
 import itertools
 import typing
@@ -111,15 +114,4 @@ if __name__=="__main__":
     print("exp: ",out.get_expressibility())
     print("ent: ",out.get_entanglement())
     
-    
-def get_qc():
-    Num = 4
-    qc = QuantumCircuit(Num)
-    x = ParameterVector(r'$\theta$', length=8)
-    [qc.h(i) for i in range(Num)]   
-    [qc.ry(x[int(2*i)], i) for i in range(Num)]
-    [qc.rz(x[int(2*i+1)], i) for i in range(Num)]
-    qc.cx(0, range(1, Num))
-    circ = qc
-    return circ
     
