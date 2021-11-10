@@ -18,7 +18,18 @@ def analyse(circ=None,samples:int=100,descriptor='both',method_ex:str='kl',
     
     analyser = Analyser(circ=circ,samples=samples,method_ex=method_ex,method_ec=method_ec,num_proc=num_proc)
     
-    return analyser.get_expressibility(),analyser.get_entanglement()
+    if descriptor == 'both':
+        return analyser.get_expressibility(),analyser.get_entanglement()
+    elif descriptor == 'ex':
+        return analyser.get_expressibility()
+    elif descriptor == 'ec':
+        return analyser.get_entanglement()
+    
+    else:
+        raise ValueError(
+                "Invalid descriptor, choose from 'ex', 'ec' or 'both'."
+            )
+        
 
 
 if __name__=="__main__":
