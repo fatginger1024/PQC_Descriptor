@@ -146,6 +146,22 @@ class FeatureMap:
         [qc.crz(x[8+i],i+1,i)for i in range(self.qubits-1)]
         
         return qc
+    
+    def circuit11(self):
+        
+        qc = QuantumCircuit(self.qubits)
+        # create all parameters inside the qc 
+        x = ParameterVector(r'$\theta$', length=8)
+        # add hadamard gate to each qubit
+        [qc.h(i) for i in range(self.qubits)] 
+        [qc.cz(i+1,i)for i in range(self.qubits-1)]
+        # add parametrised gates
+        [qc.rx(x[int(2*i)], i) for i in range(self.qubits)]
+        # add parametrised gates
+        [qc.rz(x[int(2*i+1)], i) for i in range(self.qubits)]
+        
+        return qc
+        
         
         
         
