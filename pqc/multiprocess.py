@@ -20,9 +20,9 @@ class Multiprocess(Interface):
     def init(self,arr1_base,arr2_base):
         global arr1, arr2
         arr1 = np.ctypeslib.as_array(arr1_base.get_obj())
-        arr1 = arr1.view(np.complex128).reshape(self._samples, 2**self._qubits)
+        arr1 = arr1.view(np.complex128).reshape(self._samples, 2**self._num_qubits)
         arr2 = np.ctypeslib.as_array(arr2_base.get_obj())
-        arr2 = arr2.view(np.complex128).reshape(self._samples, 2**self._qubits)
+        arr2 = arr2.view(np.complex128).reshape(self._samples, 2**self._num_qubits)
 
     # Parallel processing
     def target(self,func,i,p1,p2):
@@ -38,16 +38,16 @@ class Multiprocess(Interface):
         
        
     def job(self,func,iterable):
-        arr1_base = Array(ctypes.c_double, self._samples*2**self._qubits*2)
-        arr2_base = Array(ctypes.c_double, self._samples*2**self._qubits*2)
+        arr1_base = Array(ctypes.c_double, self._samples*2**self._num_qubits*2)
+        arr2_base = Array(ctypes.c_double, self._samples*2**self._num_qubits*2)
         pool = Pool(processes=self._num_proc, initializer=self.init, initargs=(arr1_base,arr2_base,))
         pool.starmap(partial(self.target,func), iterable)
         pool.close() 
         pool.join()
         arr1 = np.ctypeslib.as_array(arr1_base.get_obj())
-        arr1 = arr1.view(np.complex128).reshape(self._samples, 2**self._qubits)
+        arr1 = arr1.view(np.complex128).reshape(self._samples, 2**self._num_qubits)
         arr2 = np.ctypeslib.as_array(arr2_base.get_obj())
-        arr2 = arr2.view(np.complex128).reshape(self._samples, 2**self._qubits)
+        arr2 = arr2.view(np.complex128).reshape(self._samples, 2**self._num_qubits)
         
         return arr1, arr2
     
